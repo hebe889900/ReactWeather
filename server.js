@@ -4,15 +4,14 @@ var express = require('express');
 var app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(function(req, res, next){
-  if(req.headers['x-forwarded-proto'] === 'http' ||req.headers['x-forwarded-proto'] === 'https') {
-    next();
-  } else {
-    res.redirect('http://' + req.hostname + req.url);
-  }
-})
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + '/public/index.html');
+});
+
+app.listen(PORT, error => {
+  error
+  ? console.error(error)
+  : console.info(`==> 🌎 Listening on port ${PORT}. Visit http://localhost:${PORT}/ in your browser.`)
+});
 
 app.use(express.static('public'));
-app.listen(PORT, function(){
-  console.log('Express server is up on port ' + PORT)
-});
